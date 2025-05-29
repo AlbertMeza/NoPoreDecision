@@ -1,0 +1,35 @@
+<!-- public/user_search.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>No Pore Decisions | User Search</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.0/dist/lux/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>No Pore Decisions Skincare Database</h2>
+        <div class="card mb-4">
+            <div class="card-body">
+                <h4 class="card-title">Search User Information</h4>
+                <form action="/user" method="GET">
+                    <div class="mb-3">
+                        <label for="userName" class="form-label">Enter User Name:</label>
+                        <input type="text" id="userName" name="userName" class="form-control" required placeholder="User Name">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">View All Users</h4>
+                <p class="card-text">Click below to view all registered users in the database.</p>
+                <a href="/allusers" class="btn btn-secondary">View All Users</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
