@@ -1,7 +1,9 @@
 // TCSS 445 | Assign3 | Server.js
 const express = require('express');
 const db = require('./dbConfig');
-const userController = require('./controllers/users')
+const userController = require('./controller/users')
+const { getProgressLogsByUserID } = require('./controllers/progressLogs');
+const { getSkinProfileByUserID } = require('./controllers/skinProfiles');
 
 /**
 * Configure the Express application and middleware for handling
@@ -17,7 +19,8 @@ app.use(express.static('public'));
 */
 app.get('/user', userController.getUserByName);
 app.get('/allusers', userController.getAllUsers);
-
+app.get('/progresslogs', getProgressLogsByUserID);
+app.get('/skinprofile', getSkinProfileByUserID);
 /**
 * Configure the server to listen on a specified port (5000). It uses the process.env.PORT environment variable to
 * determine the port number. If process.env.PORT is not defined, it defaults to 5000.
