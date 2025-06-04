@@ -7,7 +7,7 @@ const getProgressLogsByUserID = (req, res) => {
   const query = `
     SELECT u.Name, p.Entry_Date, p.Notes, p.Metrics
     FROM Users u
-    JOIN Progress_Logs p ON u.UserID = p.UserID
+           JOIN Progress_Logs p ON u.UserID = p.UserID
     WHERE u.UserID = ?
     ORDER BY p.Entry_Date
   `;

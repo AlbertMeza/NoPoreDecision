@@ -7,76 +7,76 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.0/dist/lux/bootstrap.min.css">
 </head>
 <body>
-  <nav class="navbar navbar-dark bg-primary">
-    <div class="container">
-      <a class="navbar-brand" href="index.html">TCSS 445 | Product Logs</a>
-    </div>
-  </nav>
-
-  <div class="container mt-4">
-    <h2>Product Log Viewer</h2>
-    <label for="logDropdown" class="form-label">Select Log Entry:</label>
-    <select id="logDropdown" class="form-select mb-3">
-      <option value="">-- Select a ProgressID --</option>
-    </select>
-
-    <div id="resultSection" style="display: none;">
-      <h4>Log Details</h4>
-      <table class="table table-bordered">
-        <thead class="table-light">
-          <tr>
-            <th>Progress ID</th>
-            <th>User Name</th>
-            <th>Product ID</th>
-            <th>Purpose</th>
-            <th>Expiration Date</th>
-            <th>Progress Date</th>
-            <th>Notes</th>
-            <th>Rating</th>
-          </tr>
-        </thead>
-        <tbody id="resultTableBody"></tbody>
-      </table>
-    </div>
+<nav class="navbar navbar-dark bg-primary">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">TCSS 445 | Product Logs</a>
   </div>
+</nav>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-      const dropdown = document.getElementById('logDropdown');
-      const resultSection = document.getElementById('resultSection');
-      const resultTableBody = document.getElementById('resultTableBody');
+<div class="container mt-4">
+  <h2>Product Log Viewer</h2>
+  <label for="logDropdown" class="form-label">Select Log Entry:</label>
+  <select id="logDropdown" class="form-select mb-3">
+    <option value="">-- Select a ProgressID --</option>
+  </select>
 
-      try {
-        const response = await fetch('/productLogs');
-        const logs = await response.json();
+  <div id="resultSection" style="display: none;">
+    <h4>Log Details</h4>
+    <table class="table table-bordered">
+      <thead class="table-light">
+      <tr>
+        <th>Progress ID</th>
+        <th>User Name</th>
+        <th>Product ID</th>
+        <th>Purpose</th>
+        <th>Expiration Date</th>
+        <th>Progress Date</th>
+        <th>Notes</th>
+        <th>Rating</th>
+      </tr>
+      </thead>
+      <tbody id="resultTableBody"></tbody>
+    </table>
+  </div>
+</div>
 
-        logs.forEach(log => {
-          const option = document.createElement('option');
-          option.value = log.ProgressID;
-          option.textContent = `Progress ID: ${log.ProgressID}`;
-          dropdown.appendChild(option);
-        });
-      } catch (err) {
-        console.error('Error fetching logs:', err);
+<script>
+  document.addEventListener('DOMContentLoaded', async () => {
+    const dropdown = document.getElementById('logDropdown');
+    const resultSection = document.getElementById('resultSection');
+    const resultTableBody = document.getElementById('resultTableBody');
+
+    try {
+      const response = await fetch('/productLogs');
+      const logs = await response.json();
+
+      logs.forEach(log => {
+        const option = document.createElement('option');
+        option.value = log.ProgressID;
+        option.textContent = `Progress ID: ${log.ProgressID}`;
+        dropdown.appendChild(option);
+      });
+    } catch (err) {
+      console.error('Error fetching logs:', err);
+    }
+
+    dropdown.addEventListener('change', async (event) => {
+      const ProgressID = event.target.value;
+      if (!ProgressID) {
+        resultSection.style.display = 'none';
+        return;
       }
 
-      dropdown.addEventListener('change', async (event) => {
-        const ProgressID = event.target.value;
-        if (!ProgressID) {
-          resultSection.style.display = 'none';
-          return;
-        }
+      try {
+        const response = await fetch(`/productLogs/details?ProgressID=${ProgressID}`);
+        const data = await response.json();
 
-        try {
-          const response = await fetch(`/productLogs/details?ProgressID=${ProgressID}`);
-          const data = await response.json();
+        resultTableBody.innerHTML = '';
+        resultSection.style.display = 'block';
 
-          resultTableBody.innerHTML = '';
-          resultSection.style.display = 'block';
-
-          if (data.length > 0) {
-            const row = data[0];
-            resultTableBody.innerHTML = `
+        if (data.length > 0) {
+          const row = data[0];
+          resultTableBody.innerHTML = `
               <tr>
                 <td>${row.ProgressID}</td>
                 <td>${row.UserName}</td>
@@ -88,14 +88,16 @@
                 <td>${row.Rating || 'N/A'}</td>
               </tr>
             `;
-          } else {
-            resultTableBody.innerHTML = '<tr><td colspan="8">No data found.</td></tr>';
-          }
-        } catch (err) {
-          console.error('Error loading details:', err);
+        } else {
+          resultTableBody.innerHTML = '<tr><td colspan="8">No data found.</td></tr>';
         }
-      });
+      } catch (err) {
+        console.error('Error loading details:', err);
+      }
     });
-  </script>
+  });
+</script>
 </body>
+
+
 </html>

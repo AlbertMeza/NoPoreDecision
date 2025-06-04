@@ -7,7 +7,7 @@ const getSkinProfileByUserID = (req, res) => {
   const query = `
     SELECT u.Name, s.Concerns, s.Sensitivities, s.Goal
     FROM Users u
-    JOIN Skin_Profiles s ON u.UserID = s.UserID
+           JOIN Skin_Profiles s ON u.UserID = s.UserID
     WHERE u.UserID = ?
   `;
 

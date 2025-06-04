@@ -1,7 +1,7 @@
 // TCSS 445 | Assign3 | Server.js
 const express = require('express');
 const db = require('./dbConfig');
-const userController = require('./controller/users')
+const userController = require('./controllers/users')
 const { getProgressLogsByUserID } = require('./controllers/progressLogs');
 const { getSkinProfileByUserID } = require('./controllers/skinProfiles');
 

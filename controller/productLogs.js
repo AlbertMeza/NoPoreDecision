@@ -27,7 +27,7 @@ const getProductLogDetails = (req, res) => {
   }
 
   const query = `
-    SELECT 
+    SELECT
       pl.ProgressID,
       u.Name AS UserName,
       pl.ProductID,
@@ -37,8 +37,8 @@ const getProductLogDetails = (req, res) => {
       pl.Notes,
       pl.Rating
     FROM ProgressLogs pl
-    JOIN Users u ON pl.UserID = u.UserID
-    JOIN ProductLogs p ON pl.ProductID = p.ProductID
+           JOIN Users u ON pl.UserID = u.UserID
+           JOIN ProductLogs p ON pl.ProductID = p.ProductID
     WHERE pl.ProgressID = ?
   `;
 
