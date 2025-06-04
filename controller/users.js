@@ -1,4 +1,4 @@
-// Controllers/user.js
+// Controllers/users.js
 const db = require('../dbConfig');
 
 /**
@@ -20,9 +20,50 @@ const getUserByName = (req, res) => {
             return res.status(500).send('Error fetching user data (simplified)');
         }
 
-        res.json(userResults); // Send the results as JSON for easy inspection
+        let html = `
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.0/dist/minty/bootstrap.min.css">
+        <div class="container mt-5">
+            <h3>User Search Results for "${userName}"</h3>
+        `;
+
+        if (userResults.length === 0) {
+            html += `<p>No users found with that name.</p>`;
+        } else {
+            html += `
+            <table class="table table-bordered table-striped mt-3">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+            `;
+
+            userResults.forEach(user => {
+                html += `
+                <tr>
+                    <td>${user.Name}</td>
+                    <td>${user.Email}</td>
+                </tr>
+                `;
+            });
+
+            html += `
+                </tbody>
+            </table>
+            `;
+        }
+
+        html += `
+            <a href="/userSearch.html" class="btn btn-primary mt-3">Back to Search</a>
+        </div>
+        `;
+
+        res.send(html);
     });
 };
+
 
 /**
  * getAllUsers function fetches and displays all users in the database
@@ -39,7 +80,7 @@ const getAllUsers = (req, res) => {
 
         // Generate HTML response
         let html = `
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.0/dist/lux/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.0/dist/minty/bootstrap.min.css">
         <div class="container mt-5">
             <h3>All No Pore Decisions Users</h3>
         `;
@@ -54,21 +95,21 @@ const getAllUsers = (req, res) => {
                         <th>Name</th>
                         <th>Email</th>
                         <th>Join Date</th>
-                        <th>Action</th>
+                        <th>Details</th>
                     </tr>
                 </thead>
                 <tbody>
             `;
 
-            results.forEach(user => {
+            results.forEach(users => {
                 html += `
                 <tr>
-                    <td>${user.Name}</td>
-                    <td>${user.Email}</td>
-                    <td>${new Date(user.Join_Date).toLocaleDateString()}</td>
+                    <td>${users.Name}</td>
+                    <td>${users.Email}</td>
+                    <td>${new Date(users.Join_Date).toLocaleDateString()}</td>
                     <td>
-                        <a href="/user?userName=${encodeURIComponent(user.Name)}" class="btn btn-sm btn-info">
-                            View Details
+                        <a href="/userdetails?userID=${users.UserID}" class="btn btn-sm btn-info">
+                            View 
                         </a>
                     </td>
                 </tr>
