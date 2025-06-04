@@ -1,45 +1,16 @@
--- phpMyAdmin SQL Dump
--- version 5.2.2
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1:3306
--- Generation Time: Jun 03, 2025 at 06:16 PM
--- Server version: 11.4.5-MariaDB
--- PHP Version: 8.4.6
+DROP DATABASE IF EXISTS NoPoreDecisions;
+CREATE DATABASE NoPoreDecisions;
+USE NoPoreDecisions;
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Database: `assign3_db`
---
-CREATE DATABASE IF NOT EXISTS `assign3_db` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `assign3_db`;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `Product_Logs`
---
-
-CREATE TABLE `Product_Logs` (
+CREATE TABLE `ProductLogs` (
   `ProductID` int(11) NOT NULL,
   `Purpose` varchar(128) DEFAULT NULL,
   `ExpDate` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ;
 
---
--- Dumping data for table `Product_Logs`
---
+-- Dumping data for table `ProductLogs`
 
-INSERT INTO `Product_Logs` (`ProductID`, `Purpose`, `ExpDate`) VALUES
+INSERT INTO `ProductLogs` (`ProductID`, `Purpose`, `ExpDate`) VALUES
 (1, 'Foaming Cleanser', '2026-01-10'),
 (2, 'Pore-Minimizing Serum', '2026-06-15'),
 (3, 'Retinol Treatment', '2025-12-30'),
@@ -56,13 +27,9 @@ INSERT INTO `Product_Logs` (`ProductID`, `Purpose`, `ExpDate`) VALUES
 (14, 'Niacinamide Serum', '2026-06-06'),
 (15, 'Clay Mask', '2026-02-02');
 
--- --------------------------------------------------------
+-- Table structure for table `ProgressLogs`
 
---
--- Table structure for table `Progress_Logs`
---
-
-CREATE TABLE `Progress_Logs` (
+CREATE TABLE `ProgressLogs` (
   `ProgressID` int(11) NOT NULL,
   `UserID` int(11) NOT NULL,
   `ProductID` int(11) NOT NULL,
@@ -71,11 +38,9 @@ CREATE TABLE `Progress_Logs` (
   `Rating` decimal(2,1) DEFAULT 0.0
 ) ;
 
---
--- Dumping data for table `Progress_Logs`
---
+-- Dumping data for table `ProgressLogs`
 
-INSERT INTO `Progress_Logs` (`ProgressID`, `UserID`, `ProductID`, `Progress_Date`, `Notes`, `Rating`) VALUES
+INSERT INTO `ProgressLogs` (`ProgressID`, `UserID`, `ProductID`, `Progress_Date`, `Notes`, `Rating`) VALUES
 (1, 1, 1, '2025-01-15', 'Noticed less shine around the T-zone. Skin feels cleaner after switching to a foaming cleanser.', 7.2),
 (2, 1, 2, '2025-01-22', 'New serum caused a slight breakout on forehead. Pores looked larger again.', 5.6),
 (3, 1, 1, '2025-01-29', 'Switched back to her original routine — oil control is improving again.', 7.8),
@@ -92,11 +57,7 @@ INSERT INTO `Progress_Logs` (`ProgressID`, `UserID`, `ProductID`, `Progress_Date
 (14, 5, 11, '2025-01-31', 'Returned to fragrance-free routine — redness began to subside.', 6.9),
 (15, 5, 11, '2025-02-07', 'Skin is visibly calmer and feels resilient again.', 8.2);
 
--- --------------------------------------------------------
-
---
 -- Table structure for table `Routines`
---
 
 CREATE TABLE `Routines` (
   `RoutineID` int(11) NOT NULL,
@@ -106,11 +67,9 @@ CREATE TABLE `Routines` (
   `Serum` varchar(128) DEFAULT NULL,
   `Moisturizer` varchar(128) DEFAULT NULL,
   `Sunscreen` varchar(128) DEFAULT 'SPF 30'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ;
 
---
 -- Dumping data for table `Routines`
---
 
 INSERT INTO `Routines` (`RoutineID`, `UserID`, `Cleanser`, `Toner`, `Serum`, `Moisturizer`, `Sunscreen`) VALUES
 (1, 1, 'Foaming Cleanser', 'None', 'Pore-Minimizing Serum', 'Oil-Free Moisturizer', 'SPF 50'),
@@ -124,13 +83,9 @@ INSERT INTO `Routines` (`RoutineID`, `UserID`, `Cleanser`, `Toner`, `Serum`, `Mo
 (9, 9, 'Acne Foam Cleanser', 'BHA Toner', 'Spot Treatment', 'Oil-Free Lotion', 'Non-comedogenic SPF 40'),
 (10, 10, 'Brightening Cleanser', 'Glow Toner', 'Vitamin C Serum', 'Illuminating Moisturizer', 'Dewy SPF 35');
 
--- --------------------------------------------------------
-
---
 -- Table structure for table `Skin_Profile`
---
 
-CREATE TABLE `Skin_Profile` (
+CREATE TABLE `SkinProfile` (
   `SkinID` int(11) NOT NULL,
   `UserID` int(11) NOT NULL,
   `Skin_Concerns` varchar(256) DEFAULT NULL,
@@ -138,11 +93,9 @@ CREATE TABLE `Skin_Profile` (
   `Goals` varchar(256) DEFAULT NULL
 ) ;
 
---
--- Dumping data for table `Skin_Profile`
---
+-- Dumping data for table `SkinProfile`
 
-INSERT INTO `Skin_Profile` (`SkinID`, `UserID`, `Skin_Concerns`, `Sensitivities`, `Goals`) VALUES
+INSERT INTO `SkinProfile` (`SkinID`, `UserID`, `Skin_Concerns`, `Sensitivities`, `Goals`) VALUES
 (1, 1, 'Large pores, oily skin', 'Fragrance', 'Smooth and clear skin'),
 (2, 2, 'Fine lines, wrinkles', 'None', 'Youthful appearance'),
 (3, 3, 'Dryness, redness', 'Essential oils', 'Soothe and hydrate skin'),
@@ -154,11 +107,7 @@ INSERT INTO `Skin_Profile` (`SkinID`, `UserID`, `Skin_Concerns`, `Sensitivities`
 (9, 9, 'Cystic acne, oily T-zone', 'Heavy creams', 'Clear and matte skin'),
 (10, 10, 'Lack of glow, uneven tone', 'None', 'Radiant and dewy skin');
 
--- --------------------------------------------------------
-
---
 -- Table structure for table `Users`
---
 
 CREATE TABLE `Users` (
   `UserID` int(11) NOT NULL,
@@ -167,9 +116,7 @@ CREATE TABLE `Users` (
   `Join_Date` date NOT NULL DEFAULT curdate()
 ) ;
 
---
 -- Dumping data for table `Users`
---
 
 INSERT INTO `Users` (`UserID`, `Name`, `Email`, `Join_Date`) VALUES
 (1, 'Claire Pores', 'pores.claire@example.com', '2025-01-10'),
@@ -183,63 +130,47 @@ INSERT INTO `Users` (`UserID`, `Name`, `Email`, `Join_Date`) VALUES
 (9, 'Zitney Spears', 'spears.zitney@example.com', '2025-03-10'),
 (10, 'Luma Essence', 'essence.luma@example.com', '2025-04-13');
 
---
--- Indexes for dumped tables
---
+-- Indexes for table `ProductLogs`
 
---
--- Indexes for table `Product_Logs`
---
-ALTER TABLE `Product_Logs`
+ALTER TABLE `ProductLogs`
   ADD PRIMARY KEY (`ProductID`);
 
---
--- Indexes for table `Progress_Logs`
---
-ALTER TABLE `Progress_Logs`
+-- Indexes for table `ProgressLogs`
+
+ALTER TABLE `ProgressLogs`
   ADD PRIMARY KEY (`ProgressID`),
   ADD KEY `PROG_USER` (`UserID`),
   ADD KEY `PROG_PROD` (`ProductID`);
 
---
 -- Indexes for table `Routines`
---
+
 ALTER TABLE `Routines`
   ADD PRIMARY KEY (`RoutineID`),
   ADD KEY `ROUTINE_USER` (`UserID`);
 
---
--- Indexes for table `Skin_Profile`
---
-ALTER TABLE `Skin_Profile`
+-- Indexes for table `SkinProfile`
+
+ALTER TABLE `SkinProfile`
   ADD PRIMARY KEY (`SkinID`),
   ADD KEY `SKIN_USER` (`UserID`);
 
---
 -- Indexes for table `Users`
---
+
 ALTER TABLE `Users`
   ADD PRIMARY KEY (`UserID`);
 
---
--- Constraints for dumped tables
---
+-- Constraints for table `ProgressLogs`
 
---
--- Constraints for table `Progress_Logs`
---
-ALTER TABLE `Progress_Logs`
-  ADD CONSTRAINT `PROG_PROD` FOREIGN KEY (`ProductID`) REFERENCES `Product_Logs` (`ProductID`) ON DELETE CASCADE,
+ALTER TABLE `ProgressLogs`
+  ADD CONSTRAINT `PROG_PROD` FOREIGN KEY (`ProductID`) REFERENCES `ProductLogs` (`ProductID`) ON DELETE CASCADE,
   ADD CONSTRAINT `PROG_USER` FOREIGN KEY (`UserID`) REFERENCES `Users` (`UserID`) ON DELETE CASCADE;
 
---
 -- Constraints for table `Routines`
---
+
 ALTER TABLE `Routines`
   ADD CONSTRAINT `ROUTINE_USER` FOREIGN KEY (`UserID`) REFERENCES `Users` (`UserID`) ON DELETE CASCADE;
 
---
--- Constraints for table `Skin_Profile`
---
-ALTER TABLE `Skin_Profile`
+-- Constraints for table `SkinProfile`
+
+ALTER TABLE `SkinProfile`
   ADD CONSTRAINT `SKIN_USER` FOREIGN KEY (`UserID`) REFERENCES `Users` (`UserID`) ON DELETE CASCADE;
