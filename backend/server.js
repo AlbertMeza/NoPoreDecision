@@ -2,8 +2,8 @@
 const express = require('express');
 const db = require('./dbConfig');
 const userController = require('./controller/users')
-const { getProgressLogsByUserID } = require('./controllers/progressLogs');
-const { getSkinProfileByUserID } = require('./controllers/skinProfiles');
+const { getProgressLogsByUserID } = require('./controller/progressLogs');
+const { getSkinProfileByUserID } = require('./controller/skinProfiles');
 
 /**
 * Configure the Express application and middleware for handling
